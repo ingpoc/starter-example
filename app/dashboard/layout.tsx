@@ -1,6 +1,20 @@
+"use client";
 import SideNav from '@/app/ui/dashboard/sidenav';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
  
 export default function Layout({ children }: { children: React.ReactNode }) {
+
+  const { connected } = useWallet();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!connected) {
+      router.push('/');
+    }
+  }, [connected]);
+
   return (
     <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
       <div className="w-full flex-none md:w-64">
