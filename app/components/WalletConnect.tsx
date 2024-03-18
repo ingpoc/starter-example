@@ -1,17 +1,9 @@
 "use client";
-import { truncatePublicKey } from "@/app/utils/truncatePublicKey";
-import { Popover, Transition } from "@headlessui/react";
 import {
-  ArrowRightOnRectangleIcon,
-  ArrowsRightLeftIcon,
-  ClipboardDocumentCheckIcon,
-  ClipboardDocumentIcon,
   WalletIcon,
 } from "@heroicons/react/20/solid";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import Image from "next/image";
-import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
 import { useRouter, usePathname } from 'next/navigation';
 
@@ -28,7 +20,8 @@ const WalletConnect = ({ className = "" }) => {
 
 
   useEffect(() => {
-    if (connected && publicKey) {
+    if (connected && publicKey && wallet) {
+      console.log('Redirecting to dashboard')
       router.push('/dashboard'); 
     }
   }, [connected, publicKey]);

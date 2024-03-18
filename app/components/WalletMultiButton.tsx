@@ -20,11 +20,20 @@ const WalletMultiButton = ({ className = "" }) => {
   const walletModal = useWalletModal();
   const { connected, disconnect, publicKey, wallet } = useWallet();
   const [copied, setCopied] = useState(false);
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
 
   const openModal = () => walletModal.setVisible(true);
   const router = useRouter();
   const pathname = usePathname();
+
+  const handleDisconnect = async () => { 
+    console.log('Disconnecting wallet & Routing to homepage');
+    
+      await disconnect();
+    
+    router.push('/');
+  };
 
 
   const handleCopy = async () => {
@@ -38,9 +47,12 @@ const WalletMultiButton = ({ className = "" }) => {
     setTimeout(() => setCopied(false), 3000);
   }, [copied]);
 
+ 
+
   
 // check wallet , connected and publickey not empty and not null
   if (connected && wallet && publicKey) {
+    
 
     return (
       <Popover>
@@ -83,7 +95,7 @@ const WalletMultiButton = ({ className = "" }) => {
                 Change wallet...
               </button>
               <button
-                onClick={disconnect}
+                onClick={handleDisconnect}
                 className="flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-800 hover:bg-gray-200"
               >
                 <ArrowRightOnRectangleIcon className="mr-2 h-5 w-5" />
