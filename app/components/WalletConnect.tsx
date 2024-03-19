@@ -1,35 +1,30 @@
 "use client";
-import {
-  WalletIcon,
-} from "@heroicons/react/20/solid";
+import { WalletIcon } from "@heroicons/react/20/solid";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import { Fragment, useEffect, useState } from "react";
 import { useRouter, usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 
 /* Wallet button, for now used only in the mobile menu */
 const WalletConnect = ({ className = "" }) => {
   const walletModal = useWalletModal();
   const { connected, disconnect, publicKey, wallet } = useWallet();
 
-
   const openModal = () => walletModal.setVisible(true);
   const router = useRouter();
   const pathname = usePathname();
 
-
+  const isWalletConnected = connected && publicKey && wallet;
 
   useEffect(() => {
-    if (connected && publicKey && wallet) {
+    if (isWalletConnected) {
       console.log('Redirecting to dashboard')
       router.push('/dashboard'); 
     }
-  }, [connected, publicKey]);
+  }, [isWalletConnected]);
 
- 
-
-  if ((!connected || !wallet || !publicKey)) {
-    return (
+  if (!isWalletConnected) {
+      return (
       <button
         onClick={openModal}
         className={

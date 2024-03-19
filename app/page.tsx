@@ -1,8 +1,10 @@
 import AcmeLogo from '@/app/ui/acme-logo';
 import { lusitana } from '@/app/ui/fonts';
-import Image from 'next/image';
-import WalletConnect from '@/app/components/WalletConnect';
+import dynamic from 'next/dynamic';
+// Removed the static import of WalletConnect
 
+const Image = dynamic(() => import('next/image'), { ssr: false });
+const WalletConnect = dynamic(() => import('@/app/components/WalletConnect'), { ssr: false });
 
 export default function Page() {
 
@@ -28,6 +30,7 @@ export default function Page() {
         src="/hero-desktop.png"
         width={1000}
         height={760}
+        priority
         className="hidden md:block"
         alt="Screenshots of the dashboard project showing desktop version"
       />
